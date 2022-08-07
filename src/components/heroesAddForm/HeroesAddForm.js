@@ -21,7 +21,7 @@ const HeroesAddForm = () => {
     const [heroDescr, setHeroDescr] = useState('');
     const [heroElement, setHeroElement] = useState('');
 
-    const {filters, filtersLoadingStatus} = useSelector(state => state);
+    const {filters, filtersLoadingStatus} = useSelector(state => state.filters);
     const dispatch = useDispatch();
     const {request} = useHttp();
 
@@ -55,8 +55,7 @@ const HeroesAddForm = () => {
         }
         
         if (filters && filters.length > 0 ) {
-            return filters.map(({name, label}) => {
-               
+            return filters.map(({name,label}) => {
                 // eslint-disable-next-line
                 if (name === 'all')  return;
 
@@ -64,6 +63,8 @@ const HeroesAddForm = () => {
             })
         }
     }
+
+    // console.log(renderFilters(filters, filtersLoadingStatus));
 
     return (
         <form className="border p-4 shadow-lg rounded" onSubmit={onSubmitHandler}>
@@ -103,11 +104,7 @@ const HeroesAddForm = () => {
                     value={heroElement}
                     onChange={(e) => setHeroElement(e.target.value)}>
                     <option value="">Я владею элементом...</option>
-                    {/* {renderFilters(filters, filtersLoadingStatus)} */}
-                    <option value="fire">Огонь</option>
-                    <option value="water">Вода</option>
-                    <option value="wind">Ветер</option>
-                    <option value="earth">Земля</option>
+                    {renderFilters(filters, filtersLoadingStatus)}
                 </select>
             </div>
 
